@@ -21,7 +21,7 @@ function updateOne(collection, dataRow) {
 function read(collection, searchBy) {
     return new Promise(function (resolve, reject) {
         // Do async job
-        collection.find(searchBy || {}).toArray(function (err, result) {
+        collection.find(searchBy || {}).toArray((err, result) => {
             if (err) {
                 reject(err);
             } else {
