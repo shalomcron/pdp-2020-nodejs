@@ -1,4 +1,5 @@
 const assert = require('assert');
+const crudUtils = require('./crud-utils');
 const collectionName = 'articles';
 let collection;
 
@@ -7,47 +8,40 @@ function createCollection(callback) {
     mongoDB.getDB().createCollection(collectionName, {
             'validator': {
                 '$or': [
+                    {'myId': {'$type': "number"}},
                     {'subject': {'$type': "string"}},
                     {'header': {'$type': "string"}},
                     {'body': {'$type': "string"}}
                 ]
             }
         }, function (err, results) {
-            console.log("Collection created. results", results);
+            console.log("Collection created");
             collection = results;
             callback();
         }
     );
 };
 
-function create(dataRow) {
+function createOne(dataRow) {
     // Insert a single document
-    collection.insertOne(dataRow, function (err, r) {
-        assert.equal(null, err);
-        assert.equal(1, r.insertedCount);
-        console.log("row inserted:", dataRow);
-    });
+    crudUtils.createOne(collection, dataRow);
 }
 
-function update(dataRow) {
+
+function updateOne(dataRow) {
     // Update a single document
-    var mongoDB = require('./connect');
-    collection.updateOne({subject: dataRow.subject}, {$set: dataRow}, function (err, r) {
-        assert.equal(null, err);
-        assert.equal(1, r.matchedCount);
-        console.log("row updated:", dataRow);
-    });
+    crudUtils.updateOne(collection, dataRow);
 }
 
-function find(subject) {
+function findOne(subject) {
     
 }
 
 module.exports = {
     createCollection: createCollection,
-    create: create,
-    read: find,
-    update: update,
+    createOne: createOne,
+    updateOne: updateOne,
+    findOne: findOne,
     // delete
 };
 

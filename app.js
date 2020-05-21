@@ -14,14 +14,16 @@ mongoDB.initMongoDB(() => {
   var articles = require('./db/articles');
   articles.createCollection(() => {
     const dataRow = {
+      myId: 1,
       subject: 'subject 444',
       header: 'header 11',
       body: 'body 11'
     };
-    articles.create(dataRow);
+    articles.createOne(dataRow);
     dataRow.body = 'body UPDATED';
+    dataRow.subject = 'subject UPDATED';
     delete dataRow._id;
-    articles.update(dataRow);
+    articles.updateOne(dataRow);
   });
 });
 
