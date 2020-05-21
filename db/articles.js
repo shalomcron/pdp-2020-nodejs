@@ -14,7 +14,7 @@ function createCollection(callback) {
                 ]
             }
         }, function (err, results) {
-            console.log("Collection created");
+            console.log("articles Collection created");
             collection = results;
             callback();
         }
@@ -37,11 +37,40 @@ function find(searchBy) {
     return crudUtils.read(collection, searchBy);
 }
 
+function aggregatedFind() {
+    const pipeline = [
+            {
+                $lookup:
+                    {
+                        from: "articles",
+                        localField: "subject",
+                        foreignField: "subject",
+                        as: "subjects-as"
+                    }
+            }
+        ]
+    ;
+    return collection.aggregate(pipeline).toArray();
+    //
+    // return collection.aggregate(pipeline).toArray()
+    //     .then(articles => {
+    //         console.log(`Successfully grouped purchases for ${articles.length} articles.`)
+    //         for(const article of articles) {
+    //             console.log(`article: ${article}`)
+    //             console.log(`article: ` + JSON.stringify(article))
+    //         }
+    //         return articles
+    //     })
+    //     .catch(err => console.error(`Failed to group purchases by articles: ${err}`))
+
+}
+
 module.exports = {
     createCollection: createCollection,
     createOne: createOne,
     updateOne: updateOne,
     find: find,
+    aggragatedFind: aggregatedFind
     // delete
 };
 
