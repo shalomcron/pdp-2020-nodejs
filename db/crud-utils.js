@@ -1,26 +1,6 @@
 const assert = require('assert');
-const collectionName = 'articles';
-let collection;
 
-function createCollection(callback) {
-    var mongoDB = require('./connect');
-    mongoDB.getDB().createCollection(collectionName, {
-            'validator': {
-                '$or': [
-                    {'subject': {'$type': "string"}},
-                    {'header': {'$type': "string"}},
-                    {'body': {'$type': "string"}}
-                ]
-            }
-        }, function (err, results) {
-            console.log("Collection created. results", results);
-            collection = results;
-            callback();
-        }
-    );
-};
-
-function create(dataRow) {
+function insertOne(collection, dataRow) {
     // Insert a single document
     collection.insertOne(dataRow, function (err, r) {
         assert.equal(null, err);
@@ -29,7 +9,7 @@ function create(dataRow) {
     });
 }
 
-function update(dataRow) {
+function updateOne(collection, dataRow) {
     // Update a single document
     var mongoDB = require('./connect');
     collection.updateOne({subject: dataRow.subject}, {$set: dataRow}, function (err, r) {
@@ -39,7 +19,7 @@ function update(dataRow) {
     });
 }
 
-function find(subject) {
+function find(collection, subject) {
 
 }
 
