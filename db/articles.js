@@ -1,4 +1,3 @@
-const assert = require('assert');
 const crudUtils = require('./crud-utils');
 const collectionName = 'articles';
 let collection;
@@ -20,7 +19,7 @@ function createCollection(callback) {
             callback();
         }
     );
-};
+}
 
 function createOne(dataRow) {
     // Insert a single document
@@ -33,15 +32,16 @@ function updateOne(dataRow) {
     crudUtils.updateOne(collection, dataRow);
 }
 
-function findOne(subject) {
-    
+function find(searchBy) {
+    // Find a single document
+    return crudUtils.read(collection, searchBy);
 }
 
 module.exports = {
     createCollection: createCollection,
     createOne: createOne,
     updateOne: updateOne,
-    findOne: findOne,
+    find: find,
     // delete
 };
 

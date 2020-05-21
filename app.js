@@ -24,6 +24,12 @@ mongoDB.initMongoDB(() => {
     dataRow.subject = 'subject UPDATED';
     delete dataRow._id;
     articles.updateOne(dataRow);
+    articles.find().then(function(result) {
+      userDetails = result;
+      console.log("articles.find result", result);
+    }, function(err) {
+      console.log('articles.find ERR', err);
+    })
   });
 });
 

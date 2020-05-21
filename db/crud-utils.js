@@ -18,13 +18,22 @@ function updateOne(collection, dataRow) {
     });
 }
 
-function readOne(collection, subject) {
-
+function read(collection, searchBy) {
+    return new Promise(function (resolve, reject) {
+        // Do async job
+        collection.find(searchBy || {}).toArray(function (err, result) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(JSON.stringify(result));
+            }
+        });
+    })
 }
 
 module.exports = {
     createOne: createOne,
-    readOne: readOne,
+    read: read,
     updateOne: updateOne,
     // delete
 };
