@@ -1,6 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
-const articlesCollection = require('./articles');
+var articles = require('./articles');
+
 // Connection URL
 const url = 'mongodb://localhost:27017';
 // Database Name
@@ -12,7 +13,7 @@ function initMongoDB(calback) {
     MongoClient.connect(url, function(err, client) {
         assert.equal(null, err);
         db = client.db(dbName);
-        console.log('Connected correctly to server');
+        console.log('Connected correctly to DB server !!!!');
         calback();
     });
 
@@ -21,6 +22,10 @@ function initMongoDB(calback) {
 function getDB() {
     return db;
 }
+
+initMongoDB(() => {
+    articles.createCollection(() => {});
+});
 
 module.exports = {
     initMongoDB: initMongoDB,

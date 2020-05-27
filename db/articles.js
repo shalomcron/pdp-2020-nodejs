@@ -14,7 +14,7 @@ function createCollection(callback) {
                 ]
             }
         }, function (err, results) {
-            console.log("articles Collection created");
+            console.log("articles Collection created !!!!");
             collection = results;
             callback();
         }
@@ -42,10 +42,10 @@ function aggregatedFind() {
             {
                 $lookup:
                     {
-                        from: "articles",
+                        from: "subjects",
                         localField: "subject",
                         foreignField: "subject",
-                        as: "subjects-as"
+                        as: "subject"
                     }
             }
         ]
