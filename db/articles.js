@@ -2,28 +2,27 @@ const crudUtils = require('./crud-utils');
 const collectionName = 'articles';
 let collection;
 
-function createCollection(callback) {
+function createCollection() {
     var mongoDB = require('./connect');
     mongoDB.getDB().createCollection(collectionName, {
             'validator': {
                 '$or': [
-                    {'myId': {'$type': "number"}},
+                    {'url': {'$type': "string"}},
+                    {'description': {'$type': "number"}},
                     {'subject': {'$type': "string"}},
-                    {'header': {'$type': "string"}},
-                    {'body': {'$type': "string"}}
+                    {'body': {'$type': "array"}}
                 ]
             }
         }, function (err, results) {
             console.log("articles Collection created !!!!");
             collection = results;
-            callback();
         }
     );
 }
 
 function createOne(dataRow) {
     // Insert a single document
-    crudUtils.createOne(collection, dataRow);
+    return crudUtils.createOne(collection, dataRow);
 }
 
 

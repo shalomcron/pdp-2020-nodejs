@@ -12,6 +12,8 @@ var app = express();
 
 // mongoDB init
 var mongoDB = require('./db/connect');
+mongoDB.initMongoDB();
+
 var articlesRouter = require('./routes/articles');
 
 // view engine setup
@@ -24,14 +26,26 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/*',function(req,res,next){
+// app.get('/*',function(req,res,next){
+//     res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+//     next();
+// });
+app.use('/*',function(req,res,next){
+    // Website you wish to allow to connect
     res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+    // Request methods you wish to allow
+    // res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Request headers you wish to allow
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+   // res.header('Access-Control-Allow-Credentials', true);
     next();
 });
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/articles', articlesRouter)
+app.use('/articles', articlesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

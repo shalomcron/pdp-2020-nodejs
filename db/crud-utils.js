@@ -2,10 +2,18 @@ const assert = require('assert');
 
 function createOne(collection, dataRow) {
     // Insert a single document
-    collection.insertOne(dataRow, function (err, r) {
-        assert.equal(null, err);
-        assert.equal(1, r.insertedCount);
-        console.log("row inserted:", dataRow);
+    return new Promise(function (resolve, reject) {
+        // Do async job
+        collection.insertOne(dataRow, function (err, r) {
+            assert.equal(null, err);
+            assert.equal(1, r.insertedCount);
+            console.log("row inserted:", dataRow);
+            if (err) {
+                reject(err);
+            } else {
+                resolve(true);
+            }
+        });
     });
 }
 
@@ -28,7 +36,7 @@ function read(collection, searchBy) {
                 resolve(JSON.stringify(result));
             }
         });
-    })
+    });
 }
 
 module.exports = {

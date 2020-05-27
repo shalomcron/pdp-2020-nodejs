@@ -8,24 +8,26 @@ const url = 'mongodb://localhost:27017';
 const dbName = 'articlesDB';
 let db;
 
-function initMongoDB(calback) {
-// Use connect method to connect to the Server
-    MongoClient.connect(url, function(err, client) {
-        assert.equal(null, err);
-        db = client.db(dbName);
-        console.log('Connected correctly to DB server !!!!');
-        calback();
-    });
-
+function createCollections() {
+    articles.createCollection();
 }
 
 function getDB() {
     return db;
 }
 
-initMongoDB(() => {
-    articles.createCollection(() => {});
-});
+function initMongoDB() {
+// Use connect method to connect to the Server
+    MongoClient.connect(url, function(err, client) {
+        assert.equal(null, err);
+        db = client.db(dbName);
+        console.log('Connected correctly to DB server !!!!');
+        createCollections();
+    });
+
+}
+
+
 
 module.exports = {
     initMongoDB: initMongoDB,
