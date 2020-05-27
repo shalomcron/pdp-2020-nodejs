@@ -25,13 +25,6 @@ router.post('/', (req, res) => {
     }, function(err) {
         console.log('articles.post dataRow ERR', err);
     });
-
-    // articles.find().then((result) => {
-    //     console.log("articles.find result", result);
-    //     res.send(result);
-    // }, function(err) {
-    //     console.log('articles.find ERR', err);
-    // });
 });
 
 router.get('/agg', (req, res) => {
